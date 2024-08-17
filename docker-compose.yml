@@ -1,20 +1,23 @@
 version: "3"
 
 services:
-  SniperCallsbot:
-    image: drakkarsoftware/SniperCallsbot:stable
+  sniperbot:
+    build: .
+    entrypoint: python main.py
     volumes:
+       - ./main.py:/SniperCallsbot/main.py
        - ./logs:/SniperCallsbot/logs
        - ./backtesting:/SniperCallsbot/backtesting
        - ./tentacles:/SniperCallsbot/tentacles
        - ./user:/SniperCallsbot/user
+       - ./static:/SniperCallsbot/static
     ports:
-       - ${PORT:-80}:${PORT:-5001}
+       - 5000:5000
     restart: always
   
-  watchtower:
-    image: containrrr/watchtower
-    restart: always
-    command: --cleanup --include-restarting
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   restart: always
+  #   command: --cleanup --include-restarting
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock

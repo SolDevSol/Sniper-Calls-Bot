@@ -31,21 +31,27 @@ ENV TENTACLES_URL_TAG=$TENTACLES_URL_TAG
 
 WORKDIR /SniperCallsbot
 
-# Import python dependencies
+RUN apt update && apt install -y curl
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+COPY . .
+
+Import python dependencies
 COPY --from=base /opt/venv /opt/venv
 
 # Import built dependencies
 COPY --from=base /opt/efs/build /opt/efs/build
 
-# Add default config files
+Add default config files
 COPY SniperCallsbot/config /SniperCallsbot/SniperCallsbot/config
 
 COPY docker/* /SniperCallsbot/
 
-# 1. Install requirements
-# 2. Add cloudflare gpg key and add cloudflare repo in apt repositories (from https://pkg.cloudflare.com/index.html)
-# 3. Install required packages
-# 4. Finish env setup
+1. Install requirements
+2. Add cloudflare gpg key and add cloudflare repo in apt repositories (from https://pkg.cloudflare.com/index.html)
+3. Install required packages
+4. Finish env setup
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl \

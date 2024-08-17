@@ -3,7 +3,6 @@ import os
 import json
 import webbrowser
 import threading
-from juphelp.helper import init_helper
 
 app = Flask(__name__)
 
@@ -15,6 +14,7 @@ if not os.path.exists(JSON_FILE):
 
 @app.route('/')
 def index():
+    print(('static', 'index.html'))
     return send_from_directory('static', 'index.html')
 
 @app.route('/data', methods=['GET'])
@@ -42,7 +42,6 @@ def serve_static_files(filename):
         return abort(404)
 
 if __name__ == '__main__':
-    threading.Thread(target=init_helper, daemon=True).start()
-    webbrowser.open("http:/127.0.0.1:5000")
-    app.run()
+    webbrowser.open("http:/0.0.0.0:5000")
+    app.run(host="0.0.0.0")
 
