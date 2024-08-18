@@ -10,14 +10,14 @@ from contextlib import closing
 
 def check_socket():
     host = "127.0.0.1"
-    while True:
-        port = random.randint(5000, 10000)
+    return random.randint(5000, 10000)
+    # while True:
 
-        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-            sock.settimeout(1)
-            if sock.connect_ex((host, port)) == 0:
-                return port
-                # print("Port is open")
+    # with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+    #     sock.settimeout(1)
+    #     if sock.connect_ex((host, port)) == 0:
+    #         return port
+    #         # print("Port is open")
 
 
 app = Flask(__name__)
